@@ -1,0 +1,8 @@
+/.gradle/
+/.idea/
+/build/
+/gradle/
+/spring-social-pinterest/build/
+/spring-social-pinterest-web/build/
+*.iml
+*.bak

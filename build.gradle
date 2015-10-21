@@ -1,0 +1,67 @@
+configure(allprojects) {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    group = 'org.springframework.social'
+
+    sourceCompatibility = 1.5
+    targetCompatibility = 1.5
+
+    [compileJava, compileTestJava]*.options*.compilerArgs = ['-Xlint:none']
+
+    sourceSets.test.resources.srcDirs = ['src/test/resources', 'src/test/java']
+
+    tasks.withType(Test).all {
+        systemProperty("java.awt.headless", "true")
+    }
+
+    repositories {
+        maven { url "http://repo.spring.io/libs-snapshot" }
+        mavenLocal()
+    }
+
+    dependencies {
+        testCompile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+        testCompile "junit:junit-dep:$junitVersion"
+        testCompile "org.mockito:mockito-all:$mockitoVersion"
+        testCompile "org.springframework:spring-test:$springVersion"
+    }
+}
+
+
+configure(subprojects) { subproject ->
+    apply from: "${rootProject.projectDir}/publish-maven.gradle"
+}
+
+
+
+project('spring-social-pinterest') {
+    description = 'Pinterest API'
+    dependencies {
+        compile("org.springframework.social:spring-social-core:$springSocialVersion")
+        compile("org.springframework.social:spring-social-config:$springSocialVersion")
+        compile("org.springframework.social:spring-social-security:$springSocialVersion", optional)
+        compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+        compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+        compile("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion")
+        compile("javax.servlet:javax.servlet-api:$servletApiVersion", provided)
+        testCompile("org.springframework:spring-test:$springVersion")
+    }
+}
+
+project('spring-social-pinterest-web') {
+    description = 'Pinterest Web'
+    dependencies {
+        compile("org.springframework:spring-web:$springVersion")
+        compile("org.springframework:spring-webmvc:$springVersion")
+        compile("org.springframework.social:spring-social-core:$springSocialVersion", optional)
+        compile project(':spring-social-pinterest', optional)
+        compile("org.springframework.security:spring-security-crypto:$springSecurityCryptoVersion", optional)
+        compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion", optional)
+        compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion", optional)
+        compile("com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion", optional)
+        compile("javax.servlet:javax.servlet-api:$servletApiVersion", provided)
+        compile("javax.servlet.jsp:javax.servlet.jsp-api:$jspApiVersion", provided)
+        testCompile("org.springframework:spring-test:$springVersion")
+    }
+}

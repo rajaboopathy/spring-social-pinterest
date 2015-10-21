@@ -1,0 +1,4 @@
+rootProject.name = 'spring-social-pinterest'
+
+include 'spring-social-pinterest'
+include 'spring-social-pinterest-web'
