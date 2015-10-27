@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 
 /**
- * Created by dfc677 on 10/25/15.
+ * Created by Rajaboopathy Vijay on 10/25/15.
  */
 public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements PinInterest {
 

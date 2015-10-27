@@ -3,7 +3,7 @@ package org.springframework.social.pinterest.api;
 import org.springframework.util.MultiValueMap;
 
 /**
- * Created by dfc677 on 10/25/15.
+ * Created by Rajaboopathy Vijay on 10/25/15.
  * Defines Low level interactions against Pinterest Api
  */
 public interface PinterestApi {

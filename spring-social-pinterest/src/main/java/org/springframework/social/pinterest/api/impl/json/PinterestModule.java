@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.social.pinterest.api.User;
 
 /**
- * Created by dfc677 on 10/26/15.
+ * Created by Rajaboopathy Vijay on 10/26/15.
  */
 public class PinterestModule extends SimpleModule {
 

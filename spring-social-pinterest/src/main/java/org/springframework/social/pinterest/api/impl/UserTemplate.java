@@ -6,7 +6,7 @@ import org.springframework.social.pinterest.api.UserOperations;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by dfc677 on 10/25/15.
+ * Created by Rajaboopathy Vijay on 10/25/15.
  */
 public class UserTemplate implements UserOperations {
 

@@ -3,7 +3,7 @@ package org.springframework.social.pinterest.api;
 import java.io.Serializable;
 
 /**
- * Created by dfc677 on 10/27/15.
+ * Created by Rajaboopathy Vijay on 10/27/15.
  */
 public class Page extends PinInterestObject implements Serializable {
 

@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Created by dfc677 on 10/26/15.
+ * Created by Rajaboopathy Vijay on 10/26/15.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = UserMixin.UserDeserializer.class)

@@ -1,7 +1,7 @@
 package org.springframework.social.pinterest.api;
 
 /**
- * Created by dfc677 on 10/25/15.
+ * Created by Rajaboopathy Vijay on 10/25/15.
  */
 public interface UserOperations {
 

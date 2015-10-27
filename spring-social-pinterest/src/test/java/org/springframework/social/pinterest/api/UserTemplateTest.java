@@ -12,7 +12,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 /**
- * Created by dfc677 on 10/25/15.
+ * Created by Rajaboopathy Vijay on 10/25/15.
  */
 public class UserTemplateTest extends AbstractPinterestApiTest {
 
