@@ -1,4 +1,4 @@
-package org.springframework.social.pinterest.test;
+package org.springframework.social.pinterest.api.test;
 
 import junit.framework.TestCase;
 
