@@ -32,10 +32,10 @@ public class PinterestErrorHandler extends DefaultResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse response) throws IOException {
         PinterestError error = extractErrorFromResponse(response);
-        handleFacebookError(response.getStatusCode(), error);
+        handlePinterestError(response.getStatusCode(), error);
     }
 
-    void handleFacebookError(HttpStatus statusCode, PinterestError error) {
+    void handlePinterestError(HttpStatus statusCode, PinterestError error) {
         if (error != null && error.getCode() != null) {
             int code = error.getCode();
 
@@ -65,7 +65,7 @@ public class PinterestErrorHandler extends DefaultResponseErrorHandler {
 
                 PinterestError error = new PinterestError(status, code, host, null, userMessage, userData);
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Facebook error: ");
+                    logger.debug("Pinterest error: ");
                     logger.debug("   CODE        : " + error.getCode());
                     logger.debug("   STATUS        : " + error.getStatus());
                     logger.debug("   HOST     : " + error.getHost());
@@ -84,7 +84,7 @@ public class PinterestErrorHandler extends DefaultResponseErrorHandler {
     private String readResponseJson(ClientHttpResponse response) throws IOException {
         String json = readFully(response.getBody());
         if (logger.isDebugEnabled()) {
-            logger.debug("Error from Facebook: " + json);
+            logger.debug("Error from Pinterest: " + json);
         }
         return json;
     }

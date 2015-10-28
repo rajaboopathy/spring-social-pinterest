@@ -68,6 +68,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         return OAuth2Version.DRAFT_10;
     }
 
+
     @Override
     protected void configureRestTemplate(RestTemplate restTemplate){
         restTemplate.setErrorHandler(new PinterestErrorHandler());
@@ -169,7 +170,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
             CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
             return (List<T>) objectMapper.reader(listType).readValue(jsonNode.toString());
         } catch (IOException e) {
-            throw new UncategorizedApiException("facebook", "Error deserializing data from Facebook: " + e.getMessage(), e);
+            throw new UncategorizedApiException("Pinterest", "Error deserializing data from Pinterest: " + e.getMessage(), e);
         }
     }
 }
