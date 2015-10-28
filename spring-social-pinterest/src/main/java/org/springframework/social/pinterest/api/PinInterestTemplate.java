@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
+import org.springframework.social.pinterest.api.impl.PinterestErrorHandler;
 import org.springframework.social.pinterest.api.impl.UserTemplate;
 import org.springframework.social.pinterest.api.impl.json.PinterestModule;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
@@ -54,12 +56,22 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         initSubApis();
     }
 
+    @Override
+    public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
+        // Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat reads on the response.getBody()
+        super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(requestFactory));
+    }
+
     // AbstractOAuth2ApiBinding hooks
     @Override
     protected OAuth2Version getOAuth2Version() {
         return OAuth2Version.DRAFT_10;
     }
 
+    @Override
+    protected void configureRestTemplate(RestTemplate restTemplate){
+        restTemplate.setErrorHandler(new PinterestErrorHandler());
+    }
 
     @Override
     protected MappingJackson2HttpMessageConverter getJsonMessageConverter() {
