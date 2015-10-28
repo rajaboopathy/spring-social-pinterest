@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "url": "https://www.pinterest.com/rajaboopathy/test-board/",
+      "id": "462041311709862930",
+      "name": "Test Board"
+    }
+  ],
+  "page": {
+    "cursor": "b28yNXxmMGVmZDA5YjA5Yjk5NDIxZjgzODZjNDRkZWEzNTRhZmIyZDRjZjE3ZWY4YmRmMWE4NmVhZGQwNDg1NTNmOTAw",
+    "next": "https://api.pinterest.com/v1/me/search/boards/?access_token=AbW5diJOxxDSpX8Oa5GwZMyuXwuMFAx3YWBpm3NCjSLVUqAhnQAAAAA&query=%2A&cursor=b28yNXxmMGVmZDA5YjA5Yjk5NDIxZjgzODZjNDRkZWEzNTRhZmIyZDRjZjE3ZWY4YmRmMWE4NmVhZGQwNDg1NTNmOTAw"
+  }
+}

@@ -1,7 +1,11 @@
 package org.springframework.social.pinterest.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
 import org.springframework.social.pinterest.api.impl.UserTemplate;
@@ -12,7 +16,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import static org.springframework.social.pinterest.api.impl.PagedListUtils.*;
+
+import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
@@ -45,6 +53,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(getRestTemplate().getRequestFactory()));
         initSubApis();
     }
+
     // AbstractOAuth2ApiBinding hooks
     @Override
     protected OAuth2Version getOAuth2Version() {
@@ -94,6 +103,32 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         return getRestTemplate().getForObject(uri, type);
     }
 
+    @Override
+    public <T> PagedList<T> fetchListOfObject(String objectId, String pathType, Class<T> type) {
+        String connectionPath = pathType != null && pathType.length() > 0 ? "/" + pathType : "";
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
+        JsonNode jsonNode = getRestTemplate().getForObject(uri, JsonNode.class);
+        return pagify(type, jsonNode);
+    }
+
+    @Override
+    public <T> PagedList<T> fetchListOfObject(String objectId, String pathType, Class<T> type, String... fields) {
+        MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
+        if (fields.length > 0) {
+            String joinedFields = join(fields);
+            queryParameters.set("fields", joinedFields);
+        }
+        return fetchListOfObject(objectId, pathType, type, queryParameters);
+    }
+
+    @Override
+    public <T> PagedList<T> fetchListOfObject(String objectId, String pathType, Class<T> type, MultiValueMap<String, String> queryParmeters) {
+        String connectionPath = pathType != null && pathType.length() > 0 ? "/" + pathType : "";
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(queryParmeters).build();
+        JsonNode jsonNode = getRestTemplate().getForObject(uri, JsonNode.class);
+        return pagify(type, jsonNode);
+    }
+
     private String join(String[] fields) {
         StringBuilder builder = new StringBuilder();
         if (fields.length > 0) {
@@ -103,5 +138,26 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
             }
         }
         return builder.toString();
+    }
+
+    private <T> PagedList<T> pagify(Class<T> type, JsonNode jsonNode) {
+        List<T> data = deserializeDataList(jsonNode.get("data"), type);
+        if (!jsonNode.has("page")) {
+            return new PagedList<T>(data, null, null);
+        }
+        JsonNode pageNode = jsonNode.get("page");
+        PageParameters next = getPagedListParameters(pageNode, "page");
+        return new PagedList<T>(data, null, next);
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> List<T> deserializeDataList(JsonNode jsonNode, final Class<T> elementType) {
+        try {
+            CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
+            return (List<T>) objectMapper.reader(listType).readValue(jsonNode.toString());
+        } catch (IOException e) {
+            throw new UncategorizedApiException("facebook", "Error deserializing data from Facebook: " + e.getMessage(), e);
+        }
     }
 }

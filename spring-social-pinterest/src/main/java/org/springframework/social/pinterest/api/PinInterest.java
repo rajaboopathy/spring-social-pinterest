@@ -7,4 +7,5 @@ import org.springframework.social.ApiBinding;
  */
 public interface PinInterest extends  PinterestApi,ApiBinding {
 
+    UserOperations getUserOperations();
 }
