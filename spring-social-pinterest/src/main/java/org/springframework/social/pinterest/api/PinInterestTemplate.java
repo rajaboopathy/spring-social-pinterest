@@ -14,15 +14,16 @@ import org.springframework.social.pinterest.api.impl.UserTemplate;
 import org.springframework.social.pinterest.api.impl.json.PinterestModule;
 import org.springframework.social.support.ClientHttpRequestFactorySelector;
 import org.springframework.social.support.URIBuilder;
+import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import static org.springframework.social.pinterest.api.impl.PagedListUtils.*;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+
+import static org.springframework.social.pinterest.api.impl.PagedListUtils.getPagedListParameters;
 
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
@@ -32,6 +33,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     UserOperations userOperations;
     String applicationNamespace;
     String appId;
+
     private ObjectMapper objectMapper;
 
     public PinInterestTemplate(String accessToken) {
@@ -43,7 +45,8 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     }
 
     public PinInterestTemplate(String accessToken, String applicationNamespace, String appId) {
-        super(accessToken);
+        super(accessToken); //Temp Patch until the retrieved token works
+        Assert.hasLength(accessToken, "Access token cannot be null or empty.");
         this.applicationNamespace = applicationNamespace;
         this.appId = appId;
         initialize();
@@ -65,12 +68,12 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     // AbstractOAuth2ApiBinding hooks
     @Override
     protected OAuth2Version getOAuth2Version() {
-        return OAuth2Version.DRAFT_10;
+        return OAuth2Version.BEARER;
     }
 
 
     @Override
-    protected void configureRestTemplate(RestTemplate restTemplate){
+    protected void configureRestTemplate(RestTemplate restTemplate) {
         restTemplate.setErrorHandler(new PinterestErrorHandler());
     }
 
@@ -95,7 +98,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     @Override
     public <T> T fetchObject(String objectId, Class<T> type) {
-        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId)).build();
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId.concat("/"))).build();
         return getRestTemplate().getForObject(uri, type);
     }
 
@@ -173,4 +176,6 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
             throw new UncategorizedApiException("Pinterest", "Error deserializing data from Pinterest: " + e.getMessage(), e);
         }
     }
+
+
 }

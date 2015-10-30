@@ -8,6 +8,6 @@
   ],
   "page": {
     "cursor": "b28yNXxmMGVmZDA5YjA5Yjk5NDIxZjgzODZjNDRkZWEzNTRhZmIyZDRjZjE3ZWY4YmRmMWE4NmVhZGQwNDg1NTNmOTAw",
-    "next": "https://api.pinterest.com/v1/me/search/boards/?access_token=AbW5diJOxxDSpX8Oa5GwZMyuXwuMFAx3YWBpm3NCjSLVUqAhnQAAAAA&query=%2A&cursor=b28yNXxmMGVmZDA5YjA5Yjk5NDIxZjgzODZjNDRkZWEzNTRhZmIyZDRjZjE3ZWY4YmRmMWE4NmVhZGQwNDg1NTNmOTAw"
+    "next": "https://api.pinterest.com/v1/me/search/boards/?access_token=******&query=%2A&cursor=b28yNXxmMGVmZDA5YjA5Yjk5NDIxZjgzODZjNDRkZWEzNTRhZmIyZDRjZjE3ZWY4YmRmMWE4NmVhZGQwNDg1NTNmOTAw"
   }
 }

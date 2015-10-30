@@ -20,5 +20,5 @@ public interface PinterestApi {
 
     <T> PagedList<T> fetchListOfObject(String objectId,String pathType, Class<T> type, MultiValueMap<String, String> queryParmeters);
 
-    static final String PINTEREST_API_URL = "https://org.pinterest.com/v1/";
+    static final String PINTEREST_API_URL = "https://api.pinterest.com/v1/";
 }

@@ -30,9 +30,9 @@ public class UserTemplateTest extends AbstractPinterestApiTest {
 
     @Test
     public void testGetUserProfile() throws Exception {
-        mockServer.expect(requestTo(pinUrl("me")))
+        mockServer.expect(requestTo(pinUrl("me/")))
                 .andExpect(method(HttpMethod.GET))
-                .andExpect(header("Authorization", "OAuth someAccessToken"))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
                 .andRespond(withSuccess(jsonResource("profile"), MediaType.APPLICATION_JSON));
         User user = pinterest.getUserOperations().getUserProfile();
         Assert.assertEquals("Rajaboopathy", user.getFirstName());
@@ -42,7 +42,7 @@ public class UserTemplateTest extends AbstractPinterestApiTest {
     public void testGetUserPin() throws Exception{
         mockServer.expect(requestTo(pinUrl("me/search/pins")))
                 .andExpect(method(HttpMethod.GET))
-                .andExpect(header("Authorization","OAuth someAccessToken"))
+                .andExpect(header("Authorization","Bearer someAccessToken"))
                 .andRespond(withSuccess(jsonResource("pin"),MediaType.APPLICATION_JSON));
         PagedList<Pin> pins = pinterest.getUserOperations().getPins();
         Assert.assertNotNull(pins);
@@ -53,7 +53,7 @@ public class UserTemplateTest extends AbstractPinterestApiTest {
     public void testGetUserBoard() throws Exception{
         mockServer.expect(requestTo(pinUrl("me/search/boards")))
                 .andExpect(method(HttpMethod.GET))
-                .andExpect(header("Authorization","OAuth someAccessToken"))
+                .andExpect(header("Authorization","Bearer someAccessToken"))
                 .andRespond(withSuccess(jsonResource("board"),MediaType.APPLICATION_JSON));
         PagedList<Board> boards = pinterest.getUserOperations().getBoards();
         Assert.assertNotNull(boards);
