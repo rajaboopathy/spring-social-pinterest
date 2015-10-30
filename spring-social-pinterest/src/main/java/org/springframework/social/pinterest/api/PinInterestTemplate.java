@@ -86,7 +86,6 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         return converter;
     }
 
-    //TODO Exception Handling to be added for Service failures
 
     private void initSubApis() {
         userOperations = new UserTemplate(this, getRestTemplate());

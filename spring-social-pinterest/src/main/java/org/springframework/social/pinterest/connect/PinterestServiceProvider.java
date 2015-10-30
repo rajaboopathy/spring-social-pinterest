@@ -4,6 +4,7 @@ import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.social.oauth2.OAuth2Template;
+import org.springframework.social.pinterest.OAuth2Pinterest.OAuth2TemplatePinterest;
 import org.springframework.social.pinterest.api.PinInterest;
 import org.springframework.social.pinterest.api.PinInterestTemplate;
 import org.springframework.social.pinterest.api.PinterestApi;
@@ -21,15 +22,11 @@ public class PinterestServiceProvider extends AbstractOAuth2ServiceProvider<PinI
 
     }
 
-    private static OAuth2Template getOAuth2Template(String appId, String appSecret) {
-        OAuth2Template oAuth2Template = new OAuth2Template(appId, appSecret,
+    private static OAuth2TemplatePinterest getOAuth2Template(String appId, String appSecret) {
+        OAuth2TemplatePinterest oAuth2Template = new OAuth2TemplatePinterest(appId, appSecret,
                 "https://api.pinterest.com/oauth/",
                 PinterestApi.PINTEREST_API_URL + "oauth/token");
         oAuth2Template.setUseParametersForClientAuthentication(true);
-        //TODO scope not reflecting
-        OAuth2Parameters oAuth2Parameters = new OAuth2Parameters();
-        oAuth2Parameters.setScope("read_public,write_public");
-        oAuth2Template.buildAuthorizeUrl(oAuth2Parameters);
         return oAuth2Template;
     }
 
