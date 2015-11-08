@@ -1,9 +1,14 @@
 package org.springframework.social.pinterest.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import static org.springframework.social.pinterest.api.impl.PagedListUtils.getPagedListParameters;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.social.UncategorizedApiException;
@@ -19,11 +24,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-
-import static org.springframework.social.pinterest.api.impl.PagedListUtils.getPagedListParameters;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
@@ -142,6 +146,42 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(queryParmeters).build();
         JsonNode jsonNode = getRestTemplate().getForObject(uri, JsonNode.class);
         return pagify(type, jsonNode);
+    }
+
+    @Override
+    public void post(String objectId, MultiValueMap<String, Object> data) {
+        post(objectId,null,data);
+    }
+
+    @Override
+    public void post(String objectId, String connectionName, MultiValueMap<String, Object> data) {
+        String connectionPath= connectionName!=null?"/"+connectionName:"";
+        URI uri=URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
+        getRestTemplate().postForObject(uri,new LinkedMultiValueMap<String,Object>(data),String.class);
+    }
+
+    @Override
+    public void delete(String objectId) {
+        LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
+        deleteRequest.set("method", "delete");
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL + objectId ).build();
+        getRestTemplate().postForObject(uri, deleteRequest, String.class);
+    }
+
+    @Override
+    public void delete(String objectId, String connectionName) {
+        LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
+        deleteRequest.set("method", "delete");
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId.concat("/").concat(connectionName))).build();
+        getRestTemplate().postForObject(uri, deleteRequest, String.class);
+    }
+
+    @Override
+    public void delete(String objectId, String connectionName, MultiValueMap<String, String> data) {
+        data.set("method","delete");
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId.concat("/").concat(connectionName))).build();
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(data, new HttpHeaders());
+        getRestTemplate().exchange(uri, HttpMethod.POST, entity, String.class);
     }
 
     private String join(String[] fields) {

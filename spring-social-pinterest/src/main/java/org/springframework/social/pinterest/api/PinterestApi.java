@@ -20,5 +20,15 @@ public interface PinterestApi {
 
     <T> PagedList<T> fetchListOfObject(String objectId,String pathType, Class<T> type, MultiValueMap<String, String> queryParmeters);
 
+    void post(String objectId, MultiValueMap<String,Object> data);
+
+    void post(String objectId,String connectionName, MultiValueMap<String,Object> data);
+
+    void delete(String objectId);
+
+    void delete(String objectId,String connectionName);
+
+    void delete(String objectId,String connectionName,MultiValueMap<String,String> data);
+
     static final String PINTEREST_API_URL = "https://api.pinterest.com/v1/";
 }
