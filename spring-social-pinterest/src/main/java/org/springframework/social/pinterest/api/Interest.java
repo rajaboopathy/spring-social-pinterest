@@ -1,7 +1,7 @@
 package org.springframework.social.pinterest.api;
 
 /**
- * Created by dfc677 on 11/8/15.
+ * Created by Rajaboopathy Vijay on 11/8/15.
  */
 public class Interest {
 

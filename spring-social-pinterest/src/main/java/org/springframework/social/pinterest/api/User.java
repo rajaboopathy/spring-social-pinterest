@@ -1,22 +1,37 @@
 package org.springframework.social.pinterest.api;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
  */
 public class User extends PinInterestObject implements Serializable {
 
-    String id;
-    String userName;
-    String firstName;
-    String bio;
-    String lastName;
-    String gender;
-    String url;
+    private String id;
 
-    Locale locale;
+    private String userName;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String bio;
+
+    private String gender;
+
+    private String url;
+
+    private Date date;
+
+    private Map<String, Integer> counts;
+
+    private Map<String, Image> imageMap;
+
+    private Locale locale;
 
     public String getUserName() {
         return userName;
@@ -80,6 +95,30 @@ public class User extends PinInterestObject implements Serializable {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public Map<String, Integer> getCounts() {
+        return counts;
+    }
+
+    public void setCounts(Map<String, Integer> counts) {
+        this.counts = counts;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Map<String, Image> getImageMap() {
+        return imageMap;
+    }
+
+    public void setImageMap(Map<String, Image> imageMap) {
+        this.imageMap = imageMap;
     }
 
     public User() {
