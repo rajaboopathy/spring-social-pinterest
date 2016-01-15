@@ -5,6 +5,7 @@ import static org.springframework.social.pinterest.api.impl.PagedListUtils.getPa
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -153,6 +154,15 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         post(objectId,null,data);
     }
 
+    @Override
+    public String publish(String objectId, String connectionName, MultiValueMap<String, Object> data) {
+        String connectionPath= connectionName!=null?"/"+connectionName:"";
+        URI uri=URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
+        Map<String,Object> response =getRestTemplate().postForObject(uri,new LinkedMultiValueMap<String,Object>(data),Map.class);
+        return (String)response.get("id").toString();
+    }
+
+    // Use this if there is not response for POST
     @Override
     public void post(String objectId, String connectionName, MultiValueMap<String, Object> data) {
         String connectionPath= connectionName!=null?"/"+connectionName:"";

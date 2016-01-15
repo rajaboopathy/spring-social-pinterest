@@ -1,6 +1,5 @@
 package org.springframework.social.pinterest.api;
 
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
@@ -28,10 +27,10 @@ public class UserTemplateTest extends AbstractPinterestApiTest {
         PROFILE_FIELDS = builder.toString();
     }
 
+    // Fetch User Data test starts
     @Test
     public void testGetUserProfile() throws Exception {
-        mockServer.expect(requestTo(pinUrl("me/")))
-                .andExpect(method(HttpMethod.GET))
+        mockServer.expect(requestTo(pinUrl("me/"))).andExpect(method(HttpMethod.GET))
                 .andExpect(header("Authorization", "Bearer someAccessToken"))
                 .andRespond(withSuccess(jsonResource("profile"), MediaType.APPLICATION_JSON));
         User user = pinterest.getUserOperations().getUserProfile();
@@ -39,23 +38,97 @@ public class UserTemplateTest extends AbstractPinterestApiTest {
     }
 
     @Test
-    public void testGetUserPin() throws Exception{
-        mockServer.expect(requestTo(pinUrl("me/search/pins")))
-                .andExpect(method(HttpMethod.GET))
-                .andExpect(header("Authorization","Bearer someAccessToken"))
-                .andRespond(withSuccess(jsonResource("pin"),MediaType.APPLICATION_JSON));
+    public void testGetUserLikes() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/likes"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("likes"), MediaType.APPLICATION_JSON));
+        PagedList<Like> likes = pinterest.getUserOperations().getLikes();
+        Assert.assertEquals(2, likes.size());
+    }
+
+    @Test
+    public void testGetUserPins() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/pins"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("pins"), MediaType.APPLICATION_JSON));
         PagedList<Pin> pins = pinterest.getUserOperations().getPins();
+        Assert.assertTrue(pins.size() > 2);
+    }
+
+    @Test
+    public void testGetUserBoards() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/boards"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("boards"), MediaType.APPLICATION_JSON));
+        PagedList<Board> boards = pinterest.getUserOperations().getBoards();
+        Assert.assertTrue(boards.size() > 1);
+    }
+
+    @Test
+    public void testGetUserBoardsSuggested() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/boards/suggested"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("boards"), MediaType.APPLICATION_JSON));
+        PagedList<Board> boards = pinterest.getUserOperations().getSuggestedBoards("123");
+        Assert.assertTrue(boards.size() > 1);
+    }
+
+    // Fetch User Data test ends
+
+    // Search User Data starts
+    @Test
+    public void testSearchPins() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/search/pins"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("pins"), MediaType.APPLICATION_JSON));
+        PagedList<Pin> pins = pinterest.getUserOperations().searchPins("query");
         Assert.assertNotNull(pins);
 
     }
 
     @Test
-    public void testGetUserBoard() throws Exception{
-        mockServer.expect(requestTo(pinUrl("me/search/boards")))
-                .andExpect(method(HttpMethod.GET))
-                .andExpect(header("Authorization","Bearer someAccessToken"))
-                .andRespond(withSuccess(jsonResource("board"),MediaType.APPLICATION_JSON));
-        PagedList<Board> boards = pinterest.getUserOperations().getBoards();
+    public void testSearchBoards() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/search/boards"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("boards"), MediaType.APPLICATION_JSON));
+        PagedList<Board> boards = pinterest.getUserOperations().searchBoards("criteria");
         Assert.assertNotNull(boards);
     }
+
+    @Test
+    public void testFollowers() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/followers"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("boards"), MediaType.APPLICATION_JSON));
+        PagedList<User> users = pinterest.getUserOperations().getFollowers();
+        Assert.assertNotNull(users);
+    }
+
+    @Test
+    public void testFollowingUsers() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/following/users"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("boards"), MediaType.APPLICATION_JSON));
+        PagedList<User> users = pinterest.getUserOperations().getFollowingUsers();
+        Assert.assertNotNull(users);
+    }
+
+    @Test
+    public void testFollowingBoards() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/following/users"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("boards"), MediaType.APPLICATION_JSON));
+        PagedList<Board> boards = pinterest.getUserOperations().getFollowingBoards();
+        Assert.assertNotNull(boards);
+    }
+
+    @Test
+    public void testFollowingInterests() throws Exception {
+        mockServer.expect(requestTo(pinUrl("me/following/interests"))).andExpect(method(HttpMethod.GET))
+                .andExpect(header("Authorization", "Bearer someAccessToken"))
+                .andRespond(withSuccess(jsonResource("interests"), MediaType.APPLICATION_JSON));
+        PagedList<Interest> interests = pinterest.getUserOperations().getInterests();
+        Assert.assertNotNull(interests);
+    }
+    // Search User Data ends
 }

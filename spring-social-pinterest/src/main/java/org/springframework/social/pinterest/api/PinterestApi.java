@@ -24,6 +24,8 @@ public interface PinterestApi {
 
     void post(String objectId,String connectionName, MultiValueMap<String,Object> data);
 
+    String publish(String objectId,String connectionName, MultiValueMap<String,Object> data);
+
     void delete(String objectId);
 
     void delete(String objectId,String connectionName);

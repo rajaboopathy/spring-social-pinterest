@@ -15,6 +15,16 @@ public interface UserOperations {
 
     PagedList<Board> getBoards();
 
+    PagedList<Board> getSuggestedBoards(String pin);
+
+    PagedList<Like> getLikes();
+
+    User getaUser(String userName);
+
+    PagedList<Pin> searchPins(String searchCriteria);
+
+    PagedList<Board> searchBoards(String searchCriteria);
+
     PagedList<User> getFollowers();
 
     PagedList<User> getFollowingUsers();
@@ -22,6 +32,8 @@ public interface UserOperations {
     PagedList<Board> getFollowingBoards();
 
     PagedList<Interest> getInterests();
+
+    //Creating following relationships to be added
 
     static final String[] PROFILE_FIELDS = {
             "id", "username", "first_name", "last_name", "bio"

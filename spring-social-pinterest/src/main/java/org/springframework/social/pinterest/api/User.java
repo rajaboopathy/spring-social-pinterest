@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
  */
-public class User extends PinInterestObject implements Serializable {
+public class    User extends PinInterestObject implements Serializable {
 
     private String id;
 
