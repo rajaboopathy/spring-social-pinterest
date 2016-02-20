@@ -81,6 +81,14 @@ public class UserTemplate implements UserOperations {
         return pinterestApi.fetchListOfObject("me", "following/interests", Interest.class);
     }
 
-    //Creating following relationships to be added
-    //Delete the board and user to unfollow
+    @Override
+    public void unFollowBoad(String board, String user) {
+        pinterestApi.delete("me/following/boards/"+board+"/"+user);
+    }
+
+    @Override
+    public void unFollowUser(String user) {
+        pinterestApi.delete("me/following/users/"+user);
+    }
+
 }

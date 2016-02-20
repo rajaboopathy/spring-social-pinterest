@@ -23,7 +23,7 @@ public class PinTemplate implements PinOperations {
 
     @Override
     public Pin getPin(String pin) {
-        return pinterestApi.fetchObject("/v1/pins/" + pin, Pin.class);
+        return pinterestApi.fetchObject("pins/" + pin, Pin.class);
     }
 
     @Override
@@ -31,11 +31,11 @@ public class PinTemplate implements PinOperations {
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("note", note);
         map.add("link", link);
-        return pinterestApi.patch("/v1/pins/" + pin, "/" + username + "/" + board + "/", null, Pin.class);
+        return pinterestApi.patch("pins/" + pin, "/" + username + "/" + board + "/", null, Pin.class);
     }
 
     @Override
     public void deletePin(String pin) {
-        pinterestApi.delete("/v1/pins/" + pin);
+        pinterestApi.delete("pins/" + pin);
     }
 }

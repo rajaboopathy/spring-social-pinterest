@@ -23,7 +23,7 @@ public class BoardTemplate implements BoardOperations {
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("name", name);
         map.add("description", description);
-        return pinterestApi.post("v1/Boards/", map, Board.class);
+        return pinterestApi.post("Boards", map, Board.class);
     }
 
     @Override
@@ -31,21 +31,21 @@ public class BoardTemplate implements BoardOperations {
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         map.add("name", name);
         map.add("description", description);
-        return pinterestApi.patch("v1/Boards/", "/" + userName + "/" + boardName + "/", map, Board.class);
+        return pinterestApi.patch("Boards",userName + "/" + boardName, map, Board.class);
     }
 
     @Override
     public void deleteBoards(String userName, String boardName) {
-        pinterestApi.delete("v1/Boards/", "/" + userName + "/" + boardName + "/");
+        pinterestApi.delete("Boards",userName + "/" + boardName);
     }
 
     @Override
     public Board getUserBoards(String userName, String boardName) {
-        return pinterestApi.fetchObject("v1/Boards/" + userName + "/" + boardName + "/", Board.class);
+        return pinterestApi.fetchObject("Boards/" + userName + "/" + boardName, Board.class);
     }
 
     @Override
     public PagedList<Pin> getUserBoardPins(String userName, String boardName) {
-        return pinterestApi.fetchListOfObject("v1/Boards/" + userName + "/" + boardName + "/", null, Pin.class);
+        return pinterestApi.fetchListOfObject("Boards/" + userName + "/" + boardName, null, Pin.class);
     }
 }

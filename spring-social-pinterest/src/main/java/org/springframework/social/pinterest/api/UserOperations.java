@@ -33,6 +33,10 @@ public interface UserOperations {
 
     PagedList<Interest> getInterests();
 
+    void unFollowBoad(String board,String user);
+
+    void unFollowUser(String user);
+
     //Creating following relationships to be added
 
     static final String[] PROFILE_FIELDS = {
