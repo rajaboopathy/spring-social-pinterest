@@ -20,9 +20,13 @@ public interface PinterestApi {
 
     <T> PagedList<T> fetchListOfObject(String objectId,String pathType, Class<T> type, MultiValueMap<String, String> queryParmeters);
 
-    void post(String objectId, MultiValueMap<String,Object> data);
+    <T> T post(String objectId, MultiValueMap<String,Object> data,Class<T> type);
 
-    void post(String objectId,String connectionName, MultiValueMap<String,Object> data);
+    <T> T post(String objectId,String connectionName, MultiValueMap<String,Object> data,Class<T> type);
+
+    <T> T patch(String objectId, MultiValueMap<String,Object> data,Class<T> type);
+
+    <T> T patch(String objectId,String connectionName, MultiValueMap<String,Object> data,Class<T> type);
 
     String publish(String objectId,String connectionName, MultiValueMap<String,Object> data);
 

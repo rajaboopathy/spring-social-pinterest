@@ -36,7 +36,9 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements PinInterest {
 
     UserOperations userOperations;
+
     String applicationNamespace;
+
     String appId;
 
     private ObjectMapper objectMapper;
@@ -50,7 +52,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     }
 
     public PinInterestTemplate(String accessToken, String applicationNamespace, String appId) {
-        super(accessToken); //Temp Patch until the retrieved token works
+        super(accessToken); // Temp Patch until the retrieved token works
         Assert.hasLength(accessToken, "Access token cannot be null or empty.");
         this.applicationNamespace = applicationNamespace;
         this.appId = appId;
@@ -59,14 +61,16 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     // private helpers
     private void initialize() {
-        // Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat reads on the response.getBody()
+        // Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat
+        // reads on the response.getBody()
         super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(getRestTemplate().getRequestFactory()));
         initSubApis();
     }
 
     @Override
     public void setRequestFactory(ClientHttpRequestFactory requestFactory) {
-        // Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat reads on the response.getBody()
+        // Wrap the request factory with a BufferingClientHttpRequestFactory so that the error handler can do repeat
+        // reads on the response.getBody()
         super.setRequestFactory(ClientHttpRequestFactorySelector.bufferRequests(requestFactory));
     }
 
@@ -75,7 +79,6 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     protected OAuth2Version getOAuth2Version() {
         return OAuth2Version.BEARER;
     }
-
 
     @Override
     protected void configureRestTemplate(RestTemplate restTemplate) {
@@ -90,7 +93,6 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         converter.setObjectMapper(objectMapper);
         return converter;
     }
-
 
     private void initSubApis() {
         userOperations = new UserTemplate(this, getRestTemplate());
@@ -115,7 +117,6 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         }
         return fetchObject(objectId, type, queryParameters);
     }
-
 
     @Override
     public <T> T fetchObject(String objectId, Class<T> type, MultiValueMap<String, String> queryParmeters) {
@@ -142,39 +143,56 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     }
 
     @Override
-    public <T> PagedList<T> fetchListOfObject(String objectId, String pathType, Class<T> type, MultiValueMap<String, String> queryParmeters) {
+    public <T> PagedList<T> fetchListOfObject(String objectId, String pathType, Class<T> type,
+            MultiValueMap<String, String> queryParmeters) {
         String connectionPath = pathType != null && pathType.length() > 0 ? "/" + pathType : "";
-        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(queryParmeters).build();
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath))
+                .queryParams(queryParmeters).build();
         JsonNode jsonNode = getRestTemplate().getForObject(uri, JsonNode.class);
         return pagify(type, jsonNode);
     }
 
     @Override
-    public void post(String objectId, MultiValueMap<String, Object> data) {
-        post(objectId,null,data);
+    public <T> T post(String objectId, MultiValueMap<String, Object> data, Class<T> type) {
+        return post(objectId, null, data, type);
+    }
+
+    @Override
+    public <T> T patch(String objectId, MultiValueMap<String, Object> data, Class<T> type) {
+        return patch(objectId, null, data, type);
     }
 
     @Override
     public String publish(String objectId, String connectionName, MultiValueMap<String, Object> data) {
-        String connectionPath= connectionName!=null?"/"+connectionName:"";
-        URI uri=URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
-        Map<String,Object> response =getRestTemplate().postForObject(uri,new LinkedMultiValueMap<String,Object>(data),Map.class);
-        return (String)response.get("id").toString();
+        String connectionPath = connectionName != null ? "/" + connectionName : "";
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
+        Map<String, Object> response = getRestTemplate().postForObject(uri,
+                new LinkedMultiValueMap<String, Object>(data), Map.class);
+        return (String) response.get("id").toString();
     }
 
     // Use this if there is not response for POST
     @Override
-    public void post(String objectId, String connectionName, MultiValueMap<String, Object> data) {
-        String connectionPath= connectionName!=null?"/"+connectionName:"";
-        URI uri=URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
-        getRestTemplate().postForObject(uri,new LinkedMultiValueMap<String,Object>(data),String.class);
+    public <T> T post(String objectId, String connectionName, MultiValueMap<String, Object> data, Class<T> t) {
+        String connectionPath = connectionName != null ? "/" + connectionName : "";
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
+        return getRestTemplate().postForObject(uri, new LinkedMultiValueMap<String, Object>(data), t);
+    }
+
+    @Override
+    public <T> T patch(String objectId, String connectionName, MultiValueMap<String, Object> data, Class<T> t) {
+        LinkedMultiValueMap<String, Object> patchRequest = new LinkedMultiValueMap<String, Object>(data);
+        patchRequest.set("method", "patch");
+        String connectionPath = connectionName != null ? "/" + connectionName : "";
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
+        return getRestTemplate().postForObject(uri, patchRequest, t);
     }
 
     @Override
     public void delete(String objectId) {
         LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
         deleteRequest.set("method", "delete");
-        URI uri = URIBuilder.fromUri(PINTEREST_API_URL + objectId ).build();
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL + objectId).build();
         getRestTemplate().postForObject(uri, deleteRequest, String.class);
     }
 
@@ -188,9 +206,10 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     @Override
     public void delete(String objectId, String connectionName, MultiValueMap<String, String> data) {
-        data.set("method","delete");
+        data.set("method", "delete");
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId.concat("/").concat(connectionName))).build();
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(data, new HttpHeaders());
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(data,
+                new HttpHeaders());
         getRestTemplate().exchange(uri, HttpMethod.POST, entity, String.class);
     }
 
@@ -221,10 +240,11 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         try {
             CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
             return (List<T>) objectMapper.reader(listType).readValue(jsonNode.toString());
-        } catch (IOException e) {
-            throw new UncategorizedApiException("Pinterest", "Error deserializing data from Pinterest: " + e.getMessage(), e);
+        }
+        catch (IOException e) {
+            throw new UncategorizedApiException("Pinterest", "Error deserializing data from Pinterest: "
+                    + e.getMessage(), e);
         }
     }
-
 
 }

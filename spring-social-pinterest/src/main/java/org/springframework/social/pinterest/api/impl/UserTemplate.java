@@ -37,8 +37,8 @@ public class UserTemplate implements UserOperations {
     }
 
     @Override
-    public PagedList<Board> getSuggestedBoards(String pin) {
-        return pinterestApi.fetchListOfObject("me","boards/suggested",Board.class,pin);
+    public PagedList<Board> getSuggestedBoards(String pin_id) {
+        return pinterestApi.fetchListOfObject("me","boards/suggested",Board.class,pin_id);
     }
 
     @Override
