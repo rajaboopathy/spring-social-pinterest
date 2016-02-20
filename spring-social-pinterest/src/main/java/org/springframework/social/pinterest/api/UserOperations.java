@@ -37,6 +37,10 @@ public interface UserOperations {
 
     void unFollowUser(String user);
 
+    User followUser(String user);
+
+    Board followBoard(String board,String user);
+
     //Creating following relationships to be added
 
     static final String[] PROFILE_FIELDS = {

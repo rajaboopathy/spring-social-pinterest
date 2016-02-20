@@ -1,6 +1,8 @@
 package org.springframework.social.pinterest.api.impl;
 
 import org.springframework.social.pinterest.api.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -38,7 +40,7 @@ public class UserTemplate implements UserOperations {
 
     @Override
     public PagedList<Board> getSuggestedBoards(String pin_id) {
-        return pinterestApi.fetchListOfObject("me","boards/suggested",Board.class,pin_id);
+        return pinterestApi.fetchListOfObject("me", "boards/suggested", Board.class, pin_id);
     }
 
     @Override
@@ -53,12 +55,12 @@ public class UserTemplate implements UserOperations {
 
     @Override
     public PagedList<Pin> searchPins(String searchCriteria) {
-        return pinterestApi.fetchListOfObject("me","search/pins",Pin.class,searchCriteria);
+        return pinterestApi.fetchListOfObject("me", "search/pins", Pin.class, searchCriteria);
     }
 
     @Override
     public PagedList<Board> searchBoards(String searchCriteria) {
-        return pinterestApi.fetchListOfObject("me","search/boards",Board.class,searchCriteria);
+        return pinterestApi.fetchListOfObject("me", "search/boards", Board.class, searchCriteria);
     }
 
     @Override
@@ -83,12 +85,23 @@ public class UserTemplate implements UserOperations {
 
     @Override
     public void unFollowBoad(String board, String user) {
-        pinterestApi.delete("me/following/boards/"+board+"/"+user);
+        pinterestApi.delete("me/following/boards/" + board + "/" + user);
     }
 
     @Override
     public void unFollowUser(String user) {
-        pinterestApi.delete("me/following/users/"+user);
+        pinterestApi.delete("me/following/users/" + user);
     }
 
+    @Override
+    public User followUser(String user) {
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        map.add("user", user);
+        return pinterestApi.post("me/following/users", map, User.class);
+    }
+
+    @Override
+    public Board followBoard(String board, String user) {
+        return pinterestApi.post("me/following/boards", user + "/" + board, null, Board.class);
+    }
 }
