@@ -1,6 +1,8 @@
 package org.springframework.social.pinterest.api.impl.json;
 
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.springframework.social.pinterest.api.Board;
+import org.springframework.social.pinterest.api.Pin;
 import org.springframework.social.pinterest.api.User;
 
 /**
@@ -15,6 +17,8 @@ public class PinterestModule extends SimpleModule {
     @Override
     public void  setupModule(SetupContext context)
     {
-       context.setMixInAnnotations(User.class,UserMixin.class);
+        context.setMixInAnnotations(User.class,UserMixin.class);
+        context.setMixInAnnotations(Board.class,BoardMixin.class);
+        context.setMixInAnnotations(Pin.class,PinMixin.class);
     }
 }

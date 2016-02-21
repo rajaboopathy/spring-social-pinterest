@@ -23,7 +23,7 @@ public class OAuth2TemplatePinterest extends OAuth2Template {
     protected AccessGrant postForAccessGrant(String accessTokenUrl, MultiValueMap<String, String> parameters) {
         return this.extractAccessGrant((Map) this.getRestTemplate().postForObject(accessTokenUrl, parameters, Map.class, new Object[0]));
     }
-    //Nullified scope
+
     private AccessGrant extractAccessGrant(Map<String, Object> result) {
         return this.createAccessGrant((String)result.get("access_token"),null, (String)result.get("refresh_token"), this.getIntegerValue(result, "expires_in"), result);
     }

@@ -95,7 +95,7 @@ public class UserTemplate implements UserOperations {
 
     @Override
     public User followUser(String user) {
-        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String,String>();
         map.add("user", user);
         return pinterestApi.post("me/following/users", map, User.class);
     }

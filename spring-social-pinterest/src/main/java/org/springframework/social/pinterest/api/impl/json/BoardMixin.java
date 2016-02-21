@@ -2,7 +2,7 @@ package org.springframework.social.pinterest.api.impl.json;
 
 import java.io.IOException;
 
-import org.springframework.social.pinterest.api.User;
+import org.springframework.social.pinterest.api.Board;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonParser;
@@ -12,25 +12,25 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Created by Rajaboopathy Vijay on 10/26/15.
+ * @Author dfc677
+ * @Date 2/21/16
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(using = UserMixin.UserDeserializer.class)
-abstract class UserMixin extends PinterestMixin {
-    static class UserDeserializer extends JsonDeserializer<User> {
+@JsonDeserialize(using = BoardMixin.BoardDeserializer.class)
+abstract class BoardMixin extends PinterestMixin {
+    static class BoardDeserializer extends JsonDeserializer<Board> {
+
         @Override
-        public User deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+        public Board deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
             JsonNode tree = jp.readValueAsTree();
             JsonNode profileNode = tree.get("data");
             if (profileNode != null) {
                 String id = profileNode.get("id").textValue();
-                String firstName = profileNode.get("first_name").textValue();
-                String lastName = profileNode.get("last_name").textValue();
+                String name = profileNode.get("name").textValue();
                 String url = profileNode.get("url").textValue();
-                return new User(id, firstName, lastName, url);
+                return new Board(url, id, name);
             }
             return null;
         }
-
     }
 }

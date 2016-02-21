@@ -15,6 +15,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.OAuth2Version;
+import org.springframework.social.pinterest.api.impl.BoardTemplate;
+import org.springframework.social.pinterest.api.impl.PinTemplate;
 import org.springframework.social.pinterest.api.impl.PinterestErrorHandler;
 import org.springframework.social.pinterest.api.impl.UserTemplate;
 import org.springframework.social.pinterest.api.impl.json.PinterestModule;
@@ -37,6 +39,10 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     UserOperations userOperations;
 
+    BoardOperations boardOperations;
+
+    PinOperations pinOperations;
+
     String applicationNamespace;
 
     String appId;
@@ -49,6 +55,14 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     public PinInterestTemplate(String accessToken, String applicationNamespace) {
         this(accessToken, applicationNamespace, null);
+    }
+
+    public BoardOperations getBoardOperations() {
+        return boardOperations;
+    }
+
+    public PinOperations getPinOperations() {
+        return pinOperations;
     }
 
     public PinInterestTemplate(String accessToken, String applicationNamespace, String appId) {
@@ -96,6 +110,8 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     private void initSubApis() {
         userOperations = new UserTemplate(this, getRestTemplate());
+        boardOperations = new BoardTemplate(this,getRestTemplate());
+        pinOperations = new PinTemplate(this,getRestTemplate());
     }
 
     public UserOperations getUserOperations() {
@@ -153,7 +169,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     }
 
     @Override
-    public <T> T post(String objectId, MultiValueMap<String, Object> data, Class<T> type) {
+    public <T> T post(String objectId, MultiValueMap<String, String> data, Class<T> type) {
         return post(objectId, null, data, type);
     }
 
@@ -173,10 +189,10 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     // Use this if there is not response for POST
     @Override
-    public <T> T post(String objectId, String connectionName, MultiValueMap<String, Object> data, Class<T> t) {
+    public <T> T post(String objectId, String connectionName, MultiValueMap<String, String> data, Class<T> t) {
         String connectionPath = connectionName != null ? "/" + connectionName : "";
-        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
-        return getRestTemplate().postForObject(uri, new LinkedMultiValueMap<String, Object>(data), t);
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(data).build();
+        return getRestTemplate().postForObject(uri.toString(),null,t);
     }
 
     @Override
@@ -190,18 +206,14 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     @Override
     public void delete(String objectId) {
-        LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
-        deleteRequest.set("method", "delete");
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL + objectId).build();
-        getRestTemplate().postForObject(uri, deleteRequest, String.class);
+        getRestTemplate().delete(uri);
     }
 
     @Override
     public void delete(String objectId, String connectionName) {
-        LinkedMultiValueMap<String, String> deleteRequest = new LinkedMultiValueMap<String, String>();
-        deleteRequest.set("method", "delete");
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId.concat("/").concat(connectionName))).build();
-        getRestTemplate().postForObject(uri, deleteRequest, String.class);
+        getRestTemplate().delete(uri);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class PinTemplate implements PinOperations {
 
     @Override
     public Pin editPin(String pin, String board, String username, String note, String link) {
-        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
         map.add("note", note);
         map.add("link", link);
         return pinterestApi.patch("pins/" + pin, "/" + username + "/" + board + "/", null, Pin.class);

@@ -138,4 +138,10 @@ public class Pin extends PinInterestObject implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public Pin(String url, String id, String link) {
+        this.url = url;
+        this.id = id;
+        this.link = link;
+    }
 }
