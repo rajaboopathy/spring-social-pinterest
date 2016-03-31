@@ -12,7 +12,6 @@ public class PinterestConnectionFactory extends OAuth2ConnectionFactory<PinInter
 
     public PinterestConnectionFactory(String appId, String appSecret) {
         this(appId, appSecret, null);
-        this.setScope("read_public,write_public");
     }
 
     public PinterestConnectionFactory(String appId, String appSecret, String appNamespace) {
