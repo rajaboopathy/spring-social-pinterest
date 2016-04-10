@@ -1,7 +1,6 @@
 package org.springframework.social.pinterest.api;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
  */
-public class    User extends PinInterestObject implements Serializable {
+public class User extends PinInterestObject implements Serializable {
 
     private String id;
 

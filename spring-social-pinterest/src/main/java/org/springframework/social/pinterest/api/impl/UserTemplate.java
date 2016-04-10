@@ -29,11 +29,6 @@ public class UserTemplate implements UserOperations {
     }
 
     @Override
-    public PagedList<Pin> getPins() {
-        return pinterestApi.fetchListOfObject("me", "pins", Pin.class);
-    }
-
-    @Override
     public PagedList<Board> getBoards() {
         return pinterestApi.fetchListOfObject("me", "boards", Board.class);
     }
@@ -49,18 +44,23 @@ public class UserTemplate implements UserOperations {
     }
 
     @Override
+    public PagedList<Pin> getPins() {
+        return pinterestApi.fetchListOfObject("me", "pins", Pin.class);
+    }
+
+    @Override
     public User getaUser(String userName) {
         return pinterestApi.fetchObject("users/" + userName, User.class);
     }
 
     @Override
-    public PagedList<Pin> searchPins(String searchCriteria) {
-        return pinterestApi.fetchListOfObject("me", "search/pins", Pin.class, searchCriteria);
+    public PagedList<Board> searchBoards(String searchCriteria) {
+        return pinterestApi.fetchListOfObject("me", "search/boards", Board.class, searchCriteria);
     }
 
     @Override
-    public PagedList<Board> searchBoards(String searchCriteria) {
-        return pinterestApi.fetchListOfObject("me", "search/boards", Board.class, searchCriteria);
+    public PagedList<Pin> searchPins(String searchCriteria) {
+        return pinterestApi.fetchListOfObject("me", "search/pins", Pin.class, searchCriteria);
     }
 
     @Override

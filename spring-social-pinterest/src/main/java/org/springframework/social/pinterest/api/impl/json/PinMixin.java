@@ -24,7 +24,7 @@ abstract class PinMixin  extends PinterestMixin{
         @Override
         public Pin deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
-            JsonNode profileNode = tree.get("data");
+            JsonNode profileNode = tree.get("data") == null ? tree : tree.get("data");
             if (profileNode != null) {
                 String id = profileNode.get("id").textValue();
                 String link = profileNode.get("link").textValue();
