@@ -84,7 +84,7 @@ public class UserTemplate implements UserOperations {
     }
 
     @Override
-    public void unFollowBoad(String board, String user) {
+    public void unFollowBoard(String board, String user) {
         pinterestApi.delete("me/following/boards/" + board + "/" + user);
     }
 
@@ -95,13 +95,15 @@ public class UserTemplate implements UserOperations {
 
     @Override
     public User followUser(String user) {
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String,String>();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("user", user);
         return pinterestApi.post("me/following/users", map, User.class);
     }
 
     @Override
     public Board followBoard(String board, String user) {
-        return pinterestApi.post("me/following/boards", user + "/" + board, null, Board.class);
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("board", user + "/" + board);
+        return pinterestApi.post("me/following/boards", multiValueMap, Board.class);
     }
 }

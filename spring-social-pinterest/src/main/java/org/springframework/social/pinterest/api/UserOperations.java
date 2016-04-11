@@ -33,7 +33,7 @@ public interface UserOperations {
 
     PagedList<Interest> getInterests();
 
-    void unFollowBoad(String board,String user);
+    void unFollowBoard(String board,String user);
 
     void unFollowUser(String user);
 
