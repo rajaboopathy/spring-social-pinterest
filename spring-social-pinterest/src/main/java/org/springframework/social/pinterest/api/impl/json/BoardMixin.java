@@ -11,7 +11,7 @@ import org.springframework.social.pinterest.api.Board;
 import java.io.IOException;
 
 /**
- * @Author dfc677
+ * @Author Raja Vijay
  * @Date 2/21/16
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

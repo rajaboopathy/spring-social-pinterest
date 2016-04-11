@@ -11,11 +11,9 @@ import org.springframework.web.client.RestTemplate;
 public class BoardTemplate implements BoardOperations {
     private final PinterestApi pinterestApi;
 
-    private final RestTemplate restTemplate;
 
-    public BoardTemplate(PinterestApi pinterestApi, RestTemplate restTemplate) {
+    public BoardTemplate(PinterestApi pinterestApi) {
         this.pinterestApi = pinterestApi;
-        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -40,7 +38,7 @@ public class BoardTemplate implements BoardOperations {
     }
 
     @Override
-    public Board getUserBoards(String userName, String boardName) {
+    public Board getUserBoard(String userName, String boardName) {
         return pinterestApi.fetchObject("boards/" + userName + "/" + boardName, Board.class);
     }
 

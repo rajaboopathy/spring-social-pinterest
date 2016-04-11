@@ -12,11 +12,8 @@ public class UserTemplate implements UserOperations {
 
     private final PinterestApi pinterestApi;
 
-    private final RestTemplate restTemplate;
-
-    public UserTemplate(PinterestApi pinterestApi, RestTemplate restTemplate) {
+    public UserTemplate(PinterestApi pinterestApi) {
         this.pinterestApi = pinterestApi;
-        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -102,7 +99,7 @@ public class UserTemplate implements UserOperations {
 
     @Override
     public Board followBoard(String board, String user) {
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> multiValueMap =new LinkedMultiValueMap<String, String>();
         multiValueMap.add("board", user + "/" + board);
         return pinterestApi.post("me/following/boards", multiValueMap, Board.class);
     }

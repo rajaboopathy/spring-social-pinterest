@@ -11,7 +11,7 @@ public interface BoardOperations {
 
     void deleteBoards(String userName, String boardName);
 
-    Board getUserBoards(String userName, String boardName);
+    Board getUserBoard(String userName, String boardName);
 
     PagedList<Pin> getUserBoardPins(String userName, String boardName);
 }

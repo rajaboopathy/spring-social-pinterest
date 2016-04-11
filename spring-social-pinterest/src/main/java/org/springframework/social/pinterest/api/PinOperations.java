@@ -10,4 +10,6 @@ public interface PinOperations {
     Pin editPin(String pin, String board, String username, String note, String link);
 
     void deletePin(String pin);
+
+    Pin CreatePin(String board, String username, Pin pin);
 }

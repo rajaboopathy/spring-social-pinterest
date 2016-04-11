@@ -14,11 +14,8 @@ public class PinTemplate implements PinOperations {
 
     private PinterestApi pinterestApi;
 
-    private RestTemplate restTemplate;
-
-    public PinTemplate(PinterestApi pinterestApi, RestTemplate restTemplate) {
+    public PinTemplate(PinterestApi pinterestApi) {
         this.pinterestApi = pinterestApi;
-        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -28,14 +25,24 @@ public class PinTemplate implements PinOperations {
 
     @Override
     public Pin editPin(String pin, String board, String username, String note, String link) {
-        MultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+        MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
         map.add("note", note);
         map.add("link", link);
-        return pinterestApi.patch("pins/" + pin, "/" + username + "/" + board + "/", null, Pin.class);
+        return pinterestApi.patch("pins/" + pin, username + "/" + board + "/", map, Pin.class);
     }
 
     @Override
     public void deletePin(String pin) {
         pinterestApi.delete("pins/" + pin);
+    }
+
+    @Override
+    public Pin CreatePin(String board, String username, Pin pin) {
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+        map.add("board", username + "/" + board + "/");
+        map.add("note", pin.getNote());
+        map.add("link", pin.getLink());
+        map.add("image_url", pin.getLink());
+        return pinterestApi.post("pins/" + username + "/" + board + "/", map, Pin.class);
     }
 }

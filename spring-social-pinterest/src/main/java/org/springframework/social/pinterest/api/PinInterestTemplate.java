@@ -109,9 +109,9 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     }
 
     private void initSubApis() {
-        userOperations = new UserTemplate(this, getRestTemplate());
-        boardOperations = new BoardTemplate(this,getRestTemplate());
-        pinOperations = new PinTemplate(this,getRestTemplate());
+        userOperations = new UserTemplate(this);
+        boardOperations = new BoardTemplate(this);
+        pinOperations = new PinTemplate(this);
     }
 
     public UserOperations getUserOperations() {
