@@ -14,4 +14,7 @@ public interface BoardOperations {
     Board getUserBoard(String userName, String boardName);
 
     PagedList<Pin> getUserBoardPins(String userName, String boardName);
+
+    static final String[] PROFILE_FIELDS = {"counts", "created_at", "creator", "description", "id"
+            , "image", "name", "privacy", "reason", "url"};
 }

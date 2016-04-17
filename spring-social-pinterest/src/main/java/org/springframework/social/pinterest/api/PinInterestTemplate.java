@@ -178,6 +178,16 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     }
 
     @Override
+    public <T> T patch(String objectId, String connectionName, MultiValueMap<String, Object> data, Class<T> type, String... fields) {
+        MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
+        if (fields.length > 0) {
+            String joinedFields = join(fields);
+            queryParameters.set("fields", joinedFields);
+        }
+        return patch(objectId, null, data, type);
+    }
+
+    @Override
     public String publish(String objectId, String connectionName, MultiValueMap<String, Object> data) {
         String connectionPath = connectionName != null ? "/" + connectionName : "";
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
@@ -192,6 +202,16 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         String connectionPath = connectionName != null ? "/" + connectionName : "";
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(data).build();
         return getRestTemplate().postForObject(uri.toString(), null, t);
+    }
+
+    @Override
+    public <T> T post(String objectId, MultiValueMap<String, String> data, Class<T> type, String... fields) {
+        MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
+        if (fields.length > 0) {
+            String joinedFields = join(fields);
+            queryParameters.set("fields", joinedFields);
+        }
+        return post(objectId, null, data, type);
     }
 
     @Override

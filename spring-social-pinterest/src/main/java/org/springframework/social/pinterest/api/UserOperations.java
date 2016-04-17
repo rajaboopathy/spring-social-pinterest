@@ -5,10 +5,6 @@ package org.springframework.social.pinterest.api;
  */
 public interface UserOperations {
 
-    static final String[] PROFILE_FIELDS = {
-            "id", "username", "first_name", "last_name", "bio"
-    };
-
     User getUserProfile();
 
     PagedList<Pin> getPins();
@@ -42,4 +38,8 @@ public interface UserOperations {
     //Creating following relationships to be added
 
     Board followBoard(String board, String user);
+
+    static final String[] PROFILE_FIELDS = {
+            "account_type", "id", "username", "first_name", "last_name", "bio", "counts", "created_at", "image"
+    };
 }

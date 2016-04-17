@@ -12,4 +12,8 @@ public interface PinOperations {
     void deletePin(String pin);
 
     Pin CreatePin(String board, String username, Pin pin);
+
+    static final String[] PROFILE_FIELDS = {"attribution", "board", "color", "counts", "created_at", "creator"
+            , "id", "image", "link", "media", "metadata", "note", "original_link", "url"
+    };
 }

@@ -20,7 +20,7 @@ public class BoardTemplate implements BoardOperations {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
         map.add("name", name);
         map.add("description", description);
-        return pinterestApi.post("boards/", map, Board.class);
+        return pinterestApi.post("boards/", map, Board.class,PROFILE_FIELDS);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class BoardTemplate implements BoardOperations {
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
         map.add("name", name);
         map.add("description", description);
-        return pinterestApi.patch("boards", userName + "/" + boardName, map, Board.class);
+        return pinterestApi.patch("boards", userName + "/" + boardName, map, Board.class,PROFILE_FIELDS);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class BoardTemplate implements BoardOperations {
 
     @Override
     public Board getUserBoard(String userName, String boardName) {
-        return pinterestApi.fetchObject("boards/" + userName + "/" + boardName, Board.class);
+        return pinterestApi.fetchObject("boards/" + userName + "/" + boardName, Board.class,PROFILE_FIELDS);
     }
 
     @Override

@@ -26,7 +26,11 @@ public interface PinterestApi {
 
     <T> T post(String objectId, String connectionName, MultiValueMap<String, String> data, Class<T> type);
 
+    <T> T post(String objectId, MultiValueMap<String, String> data, Class<T> type, String... fields);
+
     <T> T patch(String objectId, MultiValueMap<String, Object> data, Class<T> type);
+
+    <T> T patch(String objectId, String connectionName, MultiValueMap<String, Object> data, Class<T> type, String... fields);
 
     <T> T patch(String objectId, String connectionName, MultiValueMap<String, Object> data, Class<T> type);
 
