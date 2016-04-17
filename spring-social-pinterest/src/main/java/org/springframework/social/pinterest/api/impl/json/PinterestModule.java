@@ -15,10 +15,9 @@ public class PinterestModule extends SimpleModule {
     }
 
     @Override
-    public void  setupModule(SetupContext context)
-    {
-        context.setMixInAnnotations(User.class,UserMixin.class);
-        context.setMixInAnnotations(Board.class,BoardMixin.class);
-        context.setMixInAnnotations(Pin.class,PinMixin.class);
+    public void setupModule(SetupContext context) {
+        context.setMixInAnnotations(User.class, UserMixin.class);
+        context.setMixInAnnotations(Board.class, BoardMixin.class);
+        context.setMixInAnnotations(Pin.class, PinMixin.class);
     }
 }

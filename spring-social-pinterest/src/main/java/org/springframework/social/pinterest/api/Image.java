@@ -6,7 +6,7 @@ import java.util.Map;
  * Created by Rajaboopathy Vijay on 11/15/15.
  */
 public class Image {
- Map<String,ImageInfo> imageInfoMap;
+    Map<String, ImageInfo> imageInfoMap;
 
     public Map<String, ImageInfo> getImageInfoMap() {
         return imageInfoMap;

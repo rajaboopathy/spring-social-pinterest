@@ -3,7 +3,6 @@ package org.springframework.social.pinterest.api.impl;
 import org.springframework.social.pinterest.api.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
@@ -99,7 +98,7 @@ public class UserTemplate implements UserOperations {
 
     @Override
     public Board followBoard(String board, String user) {
-        MultiValueMap<String, String> multiValueMap =new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<String, String>();
         multiValueMap.add("board", user + "/" + board);
         return pinterestApi.post("me/following/boards", multiValueMap, Board.class);
     }

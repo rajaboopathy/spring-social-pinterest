@@ -53,7 +53,7 @@ public class PinTemplateTest extends AbstractPinterestApiTest {
     }
 
     private Pin createPin() {
-        Pin pin = new Pin("url","id","link");
+        Pin pin = new Pin("url", "id", "link");
         pin.setNote("test");
         return pin;
     }

@@ -25,6 +25,12 @@ public class Board extends PinInterestObject implements Serializable {
 
     private Map<String, Image> image;
 
+    public Board(String url, String id, String name) {
+        this.url = url;
+        this.id = id;
+        this.name = name;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -51,12 +57,6 @@ public class Board extends PinInterestObject implements Serializable {
 
     public String getDescription() {
         return description;
-    }
-
-    public Board(String url,String id,String name){
-        this.url =url;
-        this.id=id;
-        this.name=name;
     }
 
     public Map<String, Image> getImage() {

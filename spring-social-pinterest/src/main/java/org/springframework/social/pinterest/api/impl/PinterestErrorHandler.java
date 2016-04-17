@@ -1,7 +1,5 @@
 package org.springframework.social.pinterest.api.impl;
 
-import static org.springframework.social.pinterest.api.PinterestErrors.*;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,7 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.social.*;
+import org.springframework.social.ServerException;
+import org.springframework.social.UncategorizedApiException;
 import org.springframework.social.pinterest.api.PinterestError;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
@@ -18,7 +17,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Date;
+
+import static org.springframework.social.pinterest.api.PinterestErrors.SERVICE;
+import static org.springframework.social.pinterest.api.PinterestErrors.UNKNOWN;
 
 /**
  * Created by Rajaboopathy Vijay on 10/28/15.

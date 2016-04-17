@@ -1,12 +1,9 @@
 package org.springframework.social.pinterest.api;
 
-import static org.springframework.social.pinterest.api.impl.PagedListUtils.getPagedListParameters;
-
-import java.io.IOException;
-import java.net.URI;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,10 +24,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import java.io.IOException;
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
+
+import static org.springframework.social.pinterest.api.impl.PagedListUtils.getPagedListParameters;
 
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
@@ -57,20 +56,20 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         this(accessToken, applicationNamespace, null);
     }
 
-    public BoardOperations getBoardOperations() {
-        return boardOperations;
-    }
-
-    public PinOperations getPinOperations() {
-        return pinOperations;
-    }
-
     public PinInterestTemplate(String accessToken, String applicationNamespace, String appId) {
         super(accessToken); // Temp Patch until the retrieved token works
         Assert.hasLength(accessToken, "Access token cannot be null or empty.");
         this.applicationNamespace = applicationNamespace;
         this.appId = appId;
         initialize();
+    }
+
+    public BoardOperations getBoardOperations() {
+        return boardOperations;
+    }
+
+    public PinOperations getPinOperations() {
+        return pinOperations;
     }
 
     // private helpers
@@ -160,7 +159,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     @Override
     public <T> PagedList<T> fetchListOfObject(String objectId, String pathType, Class<T> type,
-            MultiValueMap<String, String> queryParmeters) {
+                                              MultiValueMap<String, String> queryParmeters) {
         String connectionPath = pathType != null && pathType.length() > 0 ? "/" + pathType : "";
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath))
                 .queryParams(queryParmeters).build();
@@ -192,7 +191,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     public <T> T post(String objectId, String connectionName, MultiValueMap<String, String> data, Class<T> t) {
         String connectionPath = connectionName != null ? "/" + connectionName : "";
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(data).build();
-        return getRestTemplate().postForObject(uri.toString(),null,t);
+        return getRestTemplate().postForObject(uri.toString(), null, t);
     }
 
     @Override
@@ -252,8 +251,7 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
         try {
             CollectionType listType = TypeFactory.defaultInstance().constructCollectionType(List.class, elementType);
             return (List<T>) objectMapper.reader(listType).readValue(jsonNode.toString());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new UncategorizedApiException("Pinterest", "Error deserializing data from Pinterest: "
                     + e.getMessage(), e);
         }

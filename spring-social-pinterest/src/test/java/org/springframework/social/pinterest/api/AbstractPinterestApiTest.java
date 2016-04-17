@@ -1,6 +1,5 @@
 package org.springframework.social.pinterest.api;
 
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -18,7 +17,7 @@ import java.util.Locale;
 public class AbstractPinterestApiTest {
 
     protected static final String ACCESS_TOKEN = "someAccessToken";
-
+    private static final DateFormat PI_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
     protected PinInterestTemplate pinterest;
     protected MockRestServiceServer mockServer;
     protected MockRestServiceServer unauthorizedMockServer;
@@ -50,8 +49,6 @@ public class AbstractPinterestApiTest {
     protected String pinUrl(String path) {
         return PinterestApi.PINTEREST_API_URL + path;
     }
-
-    private static final DateFormat PI_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
 
 
 }

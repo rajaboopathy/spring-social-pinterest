@@ -35,20 +35,42 @@ public class Pin extends PinInterestObject implements Serializable {
 
     private Map<String, Object> metadata;
 
+    public Pin(String url, String id, String link) {
+        this.url = url;
+        this.id = id;
+        this.link = link;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLink() {
         return link;
     }
 
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public String getNote() {
         return note;
     }
 
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     public String getUrl() {
         return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Map<String, String> getAttribution() {
@@ -99,20 +121,12 @@ public class Pin extends PinInterestObject implements Serializable {
         this.date = date;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public Map<String, Image> getImage() {
         return image;
     }
 
     public void setImage(Map<String, Image> image) {
         this.image = image;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public Map<String, String> getMedia() {
@@ -129,19 +143,5 @@ public class Pin extends PinInterestObject implements Serializable {
 
     public void setMetadata(Map<String, Object> metadata) {
         this.metadata = metadata;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Pin(String url, String id, String link) {
-        this.url = url;
-        this.id = id;
-        this.link = link;
     }
 }

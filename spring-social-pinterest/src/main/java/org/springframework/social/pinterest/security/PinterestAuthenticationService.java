@@ -1,6 +1,5 @@
 package org.springframework.social.pinterest.security;
 
-import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.social.pinterest.api.PinInterest;
 import org.springframework.social.pinterest.connect.PinterestConnectionFactory;
 import org.springframework.social.security.provider.OAuth2AuthenticationService;

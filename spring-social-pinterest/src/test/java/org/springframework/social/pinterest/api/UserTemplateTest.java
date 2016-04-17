@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.social.pinterest.api.*;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;

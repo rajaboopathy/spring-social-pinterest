@@ -1,4 +1,3 @@
-
 package org.springframework.social.pinterest.api.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;

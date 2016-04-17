@@ -24,7 +24,7 @@ public class PinterestAdapter implements ApiAdapter<PinInterest> {
 
     @Override
     public void setConnectionValues(PinInterest pinInterest, ConnectionValues values) {
-        User profile = pinInterest.fetchObject("me",User.class);
+        User profile = pinInterest.fetchObject("me", User.class);
         values.setProviderUserId(profile.getId());
         values.setDisplayName(profile.getUserName());
         values.setProfileUrl(profile.getUrl());
@@ -33,11 +33,11 @@ public class PinterestAdapter implements ApiAdapter<PinInterest> {
     @Override
     public UserProfile fetchUserProfile(PinInterest pinInterest) {
         User profile = pinInterest.getUserOperations().getUserProfile();
-        return  new UserProfileBuilder().setName(profile.getUserName()).setFirstName(profile.getFirstName()).setLastName(profile.getLastName()).build();
+        return new UserProfileBuilder().setName(profile.getUserName()).setFirstName(profile.getFirstName()).setLastName(profile.getLastName()).build();
     }
 
     @Override
     public void updateStatus(PinInterest pinInterest, String message) {
-      //Do nothing on updates
+        //Do nothing on updates
     }
 }

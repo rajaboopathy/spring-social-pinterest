@@ -32,6 +32,16 @@ public class User extends PinInterestObject implements Serializable {
 
     private Locale locale;
 
+    public User() {
+    }
+
+    public User(String id, String firstName, String lastName, String url) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.url = url;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -118,15 +128,5 @@ public class User extends PinInterestObject implements Serializable {
 
     public void setImageMap(Map<String, Image> imageMap) {
         this.imageMap = imageMap;
-    }
-
-    public User() {
-    }
-
-    public User(String id, String firstName, String lastName, String url) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.url = url;
     }
 }

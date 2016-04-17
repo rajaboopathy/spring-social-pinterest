@@ -5,7 +5,6 @@ import org.springframework.social.pinterest.api.PinOperations;
 import org.springframework.social.pinterest.api.PinterestApi;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by Rajaboopathy Vijay on 11/15/15.

@@ -13,8 +13,8 @@ import org.springframework.social.pinterest.api.PinInterest;
  */
 public class PinterestApiHelper implements ApiHelper<PinInterest> {
 
+    private final static Log logger = LogFactory.getLog(PinterestApiHelper.class);
     private final UsersConnectionRepository usersConnectionRepository;
-
     private final UserIdSource userIdSource;
 
     public PinterestApiHelper(UsersConnectionRepository usersConnectionRepository, UserIdSource userIdSource) {
@@ -33,8 +33,6 @@ public class PinterestApiHelper implements ApiHelper<PinInterest> {
         }
         return connection != null ? connection.getApi() : null;
     }
-
-    private final static Log logger = LogFactory.getLog(PinterestApiHelper.class);
 
 
 }

@@ -18,7 +18,7 @@ public abstract class PinInterestObject {
         return extradata;
     }
 
-    protected void add(String key,Object value){
-        extradata.put(key,value);
+    protected void add(String key, Object value) {
+        extradata.put(key, value);
     }
 }

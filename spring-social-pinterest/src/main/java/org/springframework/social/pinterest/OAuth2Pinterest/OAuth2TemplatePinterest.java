@@ -25,7 +25,7 @@ public class OAuth2TemplatePinterest extends OAuth2Template {
     }
 
     private AccessGrant extractAccessGrant(Map<String, Object> result) {
-        return this.createAccessGrant((String)result.get("access_token"),null, (String)result.get("refresh_token"), this.getIntegerValue(result, "expires_in"), result);
+        return this.createAccessGrant((String) result.get("access_token"), null, (String) result.get("refresh_token"), this.getIntegerValue(result, "expires_in"), result);
     }
 
     private Long getIntegerValue(Map<String, Object> map, String key) {

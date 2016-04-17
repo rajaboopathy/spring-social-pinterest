@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.springframework.social.pinterest.api.Board;
 import org.springframework.social.pinterest.api.Pin;
 
 import java.io.IOException;
@@ -18,8 +17,8 @@ import java.io.IOException;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonDeserialize(using = PinMixin.PinDeserializer.class)
-abstract class PinMixin  extends PinterestMixin{
-    static class PinDeserializer extends JsonDeserializer<Pin>{
+abstract class PinMixin extends PinterestMixin {
+    static class PinDeserializer extends JsonDeserializer<Pin> {
 
         @Override
         public Pin deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {

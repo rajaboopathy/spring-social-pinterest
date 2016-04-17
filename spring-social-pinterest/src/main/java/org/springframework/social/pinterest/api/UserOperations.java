@@ -1,13 +1,13 @@
 package org.springframework.social.pinterest.api;
 
-import sun.print.PageableDoc;
-
-import java.util.List;
-
 /**
  * Created by Rajaboopathy Vijay on 10/25/15.
  */
 public interface UserOperations {
+
+    static final String[] PROFILE_FIELDS = {
+            "id", "username", "first_name", "last_name", "bio"
+    };
 
     User getUserProfile();
 
@@ -33,17 +33,13 @@ public interface UserOperations {
 
     PagedList<Interest> getInterests();
 
-    void unFollowBoard(String board,String user);
+    void unFollowBoard(String board, String user);
 
     void unFollowUser(String user);
 
     User followUser(String user);
 
-    Board followBoard(String board,String user);
-
     //Creating following relationships to be added
 
-    static final String[] PROFILE_FIELDS = {
-            "id", "username", "first_name", "last_name", "bio"
-    };
+    Board followBoard(String board, String user);
 }

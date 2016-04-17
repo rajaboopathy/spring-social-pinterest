@@ -1,9 +1,6 @@
 package org.springframework.social.pinterest.connect;
 
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Operations;
-import org.springframework.social.oauth2.OAuth2Parameters;
-import org.springframework.social.oauth2.OAuth2Template;
 import org.springframework.social.pinterest.OAuth2Pinterest.OAuth2TemplatePinterest;
 import org.springframework.social.pinterest.api.PinInterest;
 import org.springframework.social.pinterest.api.PinInterestTemplate;
