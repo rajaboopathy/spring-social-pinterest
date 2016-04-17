@@ -169,7 +169,25 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
 
     @Override
     public <T> T post(String objectId, MultiValueMap<String, String> data, Class<T> type) {
-        return post(objectId, null, data, type);
+        return post(objectId, null, data, type, null);
+    }
+
+    @Override
+    public <T> T post(String objectId, MultiValueMap<String, String> data, Class<T> type, String... fields) {
+        MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
+        if (fields.length > 0) {
+            String joinedFields = join(fields);
+            queryParameters.set("fields", joinedFields);
+        }
+        return post(objectId, null, data, type, queryParameters);
+    }
+
+
+    @Override
+    public <T> T post(String objectId, String connectionName, MultiValueMap<String, String> data, Class<T> t, MultiValueMap<String, String> queryParmeters) {
+        String connectionPath = connectionName != null ? "/" + connectionName : "";
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(queryParmeters).build();
+        return getRestTemplate().postForObject(uri.toString(), data, t);
     }
 
     @Override
@@ -188,39 +206,21 @@ public class PinInterestTemplate extends AbstractOAuth2ApiBinding implements Pin
     }
 
     @Override
-    public String publish(String objectId, String connectionName, MultiValueMap<String, Object> data) {
-        String connectionPath = connectionName != null ? "/" + connectionName : "";
-        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
-        Map<String, Object> response = getRestTemplate().postForObject(uri,
-                new LinkedMultiValueMap<String, Object>(data), Map.class);
-        return (String) response.get("id").toString();
-    }
-
-    // Use this if there is not response for POST
-    @Override
-    public <T> T post(String objectId, String connectionName, MultiValueMap<String, String> data, Class<T> t) {
-        String connectionPath = connectionName != null ? "/" + connectionName : "";
-        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).queryParams(data).build();
-        return getRestTemplate().postForObject(uri.toString(), null, t);
-    }
-
-    @Override
-    public <T> T post(String objectId, MultiValueMap<String, String> data, Class<T> type, String... fields) {
-        MultiValueMap<String, String> queryParameters = new LinkedMultiValueMap<String, String>();
-        if (fields.length > 0) {
-            String joinedFields = join(fields);
-            queryParameters.set("fields", joinedFields);
-        }
-        return post(objectId, null, data, type);
-    }
-
-    @Override
     public <T> T patch(String objectId, String connectionName, MultiValueMap<String, Object> data, Class<T> t) {
         LinkedMultiValueMap<String, Object> patchRequest = new LinkedMultiValueMap<String, Object>(data);
         patchRequest.set("method", "patch");
         String connectionPath = connectionName != null ? "/" + connectionName : "";
         URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
         return getRestTemplate().postForObject(uri, patchRequest, t);
+    }
+
+    @Override
+    public String publish(String objectId, String connectionName, MultiValueMap<String, Object> data) {
+        String connectionPath = connectionName != null ? "/" + connectionName : "";
+        URI uri = URIBuilder.fromUri(PINTEREST_API_URL.concat(objectId).concat(connectionPath)).build();
+        Map<String, Object> response = getRestTemplate().postForObject(uri,
+                new LinkedMultiValueMap<String, Object>(data), Map.class);
+        return (String) response.get("id").toString();
     }
 
     @Override
